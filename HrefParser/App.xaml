@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:HrefParser"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:ColorConverter x:Key="ColorConverter"/>
     </Application.Resources>
 </Application>

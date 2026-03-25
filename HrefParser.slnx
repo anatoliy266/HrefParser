@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="HrefParser.Tests/HrefParser.Tests.csproj" Id="43d3d66c-1bd4-4b76-bbc1-9008464699f8" />
   <Project Path="HrefParser/HrefParser.csproj" />
 </Solution>

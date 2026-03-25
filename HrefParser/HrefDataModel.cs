@@ -7,11 +7,35 @@
         Completed,
         Failed
     }
-    public class HrefDataModel
+    public class HrefDataModel : BaseViewModel
     {
         //ссылка, заголовок сайта по этой ссылке и текущий статус запроса этой ссылки
-        public Uri Href {  get; set; }
-        public string SiteName { get; set; }
-        public Status Status { get; set; }
+        public Uri Href
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Href));
+            }
+        }
+        public string SiteName
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(SiteName));
+            }
+        }
+        public Status Status
+        {
+            get;
+            set
+            {
+                field = value;
+                OnPropertyChanged(nameof(Status));
+            }
+        }
     }
 }

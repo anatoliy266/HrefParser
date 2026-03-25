@@ -9,20 +9,53 @@
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
+    <Window.Resources>
+        <local:ColorConverter x:Key="ColorConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,10,10" Grid.RowSpan="3"/>
         <DockPanel Grid.Row="0" Grid.Column="0" Margin="5">
-            <Button DockPanel.Dock="Right" Name="button1" Content="button1" Margin="2" Width="200" Command="{Binding MyButtonClick}"/>
+            <ContentControl DockPanel.Dock="Right" Content="{Binding}">
+                <ContentControl.Resources>
+                    <DataTemplate x:Key="StartTemplate">
+                        <Button Content="ПУСК" Command="{Binding StartButtonClick}" Background="LightGreen" Margin="2" Width="200" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="RunningTemplate">
+                        <UniformGrid Columns="2">
+                            <Button Content="ПАУЗА" Command="{Binding PauseButtonClick}" Margin="2" Width="100" />
+                            <Button Content="СТОП" Command="{Binding StopButtonClick}" Background="LightCoral" Margin="2" Width="100"/>
+                        </UniformGrid>
+                    </DataTemplate>
+                </ContentControl.Resources>
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="ContentTemplate" Value="{StaticResource StartTemplate}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding InProgress}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource RunningTemplate}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding InProgress}" Value="False">
+                                <Setter Property="ContentTemplate" Value="{StaticResource StartTemplate}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
             <TextBox DockPanel.Dock="Left" Text="{Binding Href}" Margin="2" />
         </DockPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Data}" AutoGenerateColumns="False">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding Status, Converter={StaticResource ColorConverter}}"/>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Ссылка" Binding="{Binding Href}" Width="2*" />
                 <DataGridTextColumn Header="Сайт" Binding="{Binding SiteName}" Width="4*" />
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ProgressBar Grid.Row="2" Height="30" Value="{Binding Progress}" Maximum="100"/>
+        <ProgressBar Grid.Row="2" Height="30" Value="{Binding Progress}" Maximum="{Binding MaxProgress}"/>
 
 
         <Grid.RowDefinitions>
